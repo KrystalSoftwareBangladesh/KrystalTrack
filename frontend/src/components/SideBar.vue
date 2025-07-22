@@ -1,22 +1,36 @@
 <template>
-    <aside :class="['bg-white border-r shadow-md h-full transition-all duration-300', isCollapsed ? 'w-16' : 'w-64']">
-        <div class="p-4 flex justify-between items-center">
-            <span v-if="!isCollapsed" class="font-bold text-gray-700">Menu</span>
-            <button @click="toggleCollapse" class="text-gray-500">
-                <span v-if="isCollapsed">➡️</span>
-                <span v-else>⬅️</span>
+    <aside :class="[
+        'h-full bg-gray-800 text-white transition-all duration-300',
+        collapsed ? 'w-16' : 'w-64'
+    ]" class="flex flex-col">
+        <div class="flex items-center justify-between h-16 px-2 border-b border-gray-700">
+            <span v-if="!collapsed" class="font-bold text-lg p-2">Menu</span>
+            <button @click="$emit('toggle')" class="text-white hover:text-gray-300">
+                <i :class="collapsed ? 'fas fa-chevron-right p-2' : 'fas fa-chevron-left p-2'"></i>
             </button>
         </div>
-        <nav class="space-y-2 px-2">
-            <RouterLink to="/" class="block py-2 px-3 rounded hover:bg-gray-100">🏠 Dashboard</RouterLink>
-            <RouterLink to="/projects" class="block py-2 px-3 rounded hover:bg-gray-100">📁 Projects</RouterLink>
-            <RouterLink to="/tasks" class="block py-2 px-3 rounded hover:bg-gray-100">✅ Tasks</RouterLink>
+
+        <nav class="flex-1 p-2 space-y-2">
+            <RouterLink to="/" class="flex items-center gap-3 hover:bg-gray-700 p-2 rounded">
+                <i class="fas fa-tachometer-alt"></i>
+                <span v-if="!collapsed">Dashboard</span>
+            </RouterLink>
+            <RouterLink to="/projects" class="flex items-center gap-3 hover:bg-gray-700 p-2 rounded">
+                <i class="fas fa-folder-open"></i>
+                <span v-if="!collapsed">Projects</span>
+            </RouterLink>
+            <RouterLink to="/tasks" class="flex items-center gap-3 hover:bg-gray-700 p-2 rounded">
+                <i class="fas fa-tasks"></i>
+                <span v-if="!collapsed">Tasks</span>
+            </RouterLink>
         </nav>
     </aside>
 </template>
 
-<script setup>
-import { ref } from 'vue'
-const isCollapsed = ref(false)
-const toggleCollapse = () => (isCollapsed.value = !isCollapsed.value)
+<script>
+export default {
+    props: {
+        collapsed: Boolean
+    }
+}
 </script>
